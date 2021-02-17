@@ -35,7 +35,7 @@ class _AkademisyenState extends State<Akademisyen> {
                   // if(snapshot.data[i] == snapshot.data[index]){
                      Util.ogru = snapshot.data[index].unvan + " " + snapshot.data[index].adSoyad ;
                   // Navigator.pop(context);
-                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>RandevuDetay()));
+                     Navigator.pushNamed(context,"/detay/$index");
                  //  }
                 // }
                },

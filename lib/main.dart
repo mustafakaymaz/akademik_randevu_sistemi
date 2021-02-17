@@ -30,8 +30,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
        primaryColor: Colors.grey,
       ),
-      home: GirisSayfasi(),
-     /* initialRoute: "/",
+     // home: GirisSayfasi(),
+      initialRoute: "/",
       routes: {
         '/' : (context)=> GirisSayfasi(),
         '/anaSayfa': (context)=>RandevuOlustur(),
@@ -41,9 +41,14 @@ class MyApp extends StatelessWidget {
         '/anaSayfa/detayOelmDetay': (context)=> RandevuDetay(),
         '/anaSayfa/aciklamaDetay': (context)=> RandevuDetay(),
         '/detaySayfa/anaSayfa':(context)=>RandevuOlustur(),
-
-
-      },*/
+      },
+      onGenerateRoute: (RouteSettings settings){
+        List<String> eleman = settings.name.split("/");
+        if(eleman[1]=='detay'){
+          return MaterialPageRoute(builder: (context)=>RandevuDetay());
+        }
+        return null;
+       },
     );
   }
 }
