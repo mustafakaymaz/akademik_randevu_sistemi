@@ -140,7 +140,6 @@ class _SifremiUnuttumSayfasiState extends State<SifremiUnuttumSayfasi> {
                                  ),
                                ),
                                onPressed: () async{
-
                                 var email = resetEmailKontrolu.text;
                                 var rsp = await aps.resetPasword(email);
                                 if(rsp['email'] == email){
@@ -181,7 +180,6 @@ class _SifremiUnuttumSayfasiState extends State<SifremiUnuttumSayfasi> {
       backgroundColor:Colors.white ,
     );
   }
-
 
 
 

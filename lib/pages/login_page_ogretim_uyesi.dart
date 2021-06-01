@@ -6,26 +6,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hizli_randevu_sistemi/api_services.dart';
+import 'package:hizli_randevu_sistemi/detay/detay_ogretim_elemani.dart';
 import 'package:hizli_randevu_sistemi/model/Akadamisyenler.dart';
 import 'package:hizli_randevu_sistemi/model/User.dart';
 import 'package:hizli_randevu_sistemi/model/util.dart';
 import 'package:hizli_randevu_sistemi/pages/home_page.dart';
+import 'package:hizli_randevu_sistemi/pages/login_page.dart';
+import 'package:hizli_randevu_sistemi/pages/mail_sifre_dogrulama.dart';
+import 'package:hizli_randevu_sistemi/pages/ogr_kayit_dogrulama.dart';
+import 'package:hizli_randevu_sistemi/pages/ogretim_elemani_sifremi_unuttum.dart';
+import 'package:hizli_randevu_sistemi/pages/sifre_yenileme_sayfasi.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'dart:math';
 import 'package:hizli_randevu_sistemi/pages/sifremi_unuttum.dart';
 
-class GirisSayfasi extends StatefulWidget {
-  GirisSayfasi({Key key}) : super(key: key);
+import 'home_page_ogretim_elemani.dart';
+
+class GirisSayfasiOgretimUyesi extends StatefulWidget {
+  GirisSayfasiOgretimUyesi({Key key}) : super(key: key);
 
   @override
-  _GirisSayfasiState createState() => _GirisSayfasiState();
+  _GirisSayfasiOgretimUyesiState createState() => _GirisSayfasiOgretimUyesiState();
 }
 
-class _GirisSayfasiState extends State<GirisSayfasi>
+class _GirisSayfasiOgretimUyesiState extends State<GirisSayfasiOgretimUyesi>
     with SingleTickerProviderStateMixin {
-  List<String> _lokasyon = ['Ogrenci', 'Ogretim Uyesi', ];
+  List<String> _lokasyon = ['Aras.Gor.','Dr.Ogr.Uyesi', 'Doc.Dr','Prof.Dr', ];
   //bool status = false;
   String _dropDownValue;
+  String adres = "@sdu.edu.tr";
   final FocusNode myFocusNodeEmailGiris = FocusNode();
   final FocusNode myFocusNodeSifreGiris = FocusNode();
   final FocusNode myFocusNodeSifre = FocusNode();
@@ -33,6 +42,7 @@ class _GirisSayfasiState extends State<GirisSayfasi>
   final FocusNode myFocusNodeIsim = FocusNode();
   final FocusNode myFocusNodeFkulte = FocusNode();
   final FocusNode myfocusNodeBolum = FocusNode();
+  final FocusNode myfocusNodeAnaBilim = FocusNode();
 
   TextEditingController girisEmailKontrolu = TextEditingController();
   TextEditingController girisSifreKontrolu = TextEditingController();
@@ -46,6 +56,7 @@ class _GirisSayfasiState extends State<GirisSayfasi>
   var kaydolSifreKontrolu = TextEditingController();
   var kaydolFakulteKontrolu = TextEditingController();
   var kaydolBolumKontrolu = TextEditingController();
+  var kaydolAnaBilimKontrolu = TextEditingController();
   var formKey = GlobalKey<FormState>();
   var scaffoldKey = GlobalKey<ScaffoldState>();
   PageController _pageController;
@@ -69,77 +80,61 @@ class _GirisSayfasiState extends State<GirisSayfasi>
     return Scaffold(
       key: scaffoldKey,
       body:SingleChildScrollView(
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height >= 775.0
-                ? MediaQuery.of(context).size.height
-                : 755.0,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height >= 775.0
+              ? MediaQuery.of(context).size.height
+              : 755.0,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
 
-                Padding(
-                  padding: EdgeInsets.only(top: 75.0),
-                  child: Image(
-                      width: 250.0,
-                      height: 191.0,
-                      fit: BoxFit.fill,
-                      image: new AssetImage('assets/img/sdu_logo.jpg')),
-                ),
-                /*CustomSwitch(
-                  activeColor: Colors.red.shade600,
-                  value: status,
-                  onChanged: (value) {
-                  //  print("VALUE : $value");
-                    setState(() {
-                      status = value;
-
-                    });
+              Padding(
+                padding: EdgeInsets.only(top: 75.0),
+                child: Image(
+                    width: 250.0,
+                    height: 191.0,
+                    fit: BoxFit.fill,
+                    image: new AssetImage('assets/img/sdu_logo.jpg')),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 20.0),
+                child: _buildMenuBar(context),
+              ),
+              Expanded(
+                flex: 2,
+                child: PageView(
+                  controller: _pageController,
+                  onPageChanged: (i) {
+                    if (i == 0) {
+                      setState(() {
+                        right = Colors.white;
+                        left = Colors.black;
+                      });
+                    } else if (i == 1) {
+                      setState(() {
+                        right = Colors.black;
+                        left = Colors.white;
+                      });
+                    }
                   },
+                  children: [
+                    ConstrainedBox(
+                      constraints: const BoxConstraints.expand(),
+                      child: _buildSingIn(context),
+                    ),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints.expand(),
+                      child: _buildSingUp(context),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 12.0,),
-                Text('Value : $status', style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20.0
-                ),),*/
-                Padding(
-                  padding: EdgeInsets.only(top: 20.0),
-                  child: _buildMenuBar(context),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: PageView(
-                    controller: _pageController,
-                    onPageChanged: (i) {
-                      if (i == 0) {
-                        setState(() {
-                          right = Colors.white;
-                          left = Colors.black;
-                        });
-                      } else if (i == 1) {
-                        setState(() {
-                          right = Colors.black;
-                          left = Colors.white;
-                        });
-                      }
-                    },
-                    children: [
-                      ConstrainedBox(
-                        constraints: const BoxConstraints.expand(),
-                        child: _buildSingIn(context),
-                      ),
-                      ConstrainedBox(
-                        constraints: const BoxConstraints.expand(),
-                        child: _buildSingUp(context),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-            color: Colors.white,
+              )
+            ],
           ),
+          color: Colors.white,
         ),
+      ),
 
     );
   }
@@ -223,74 +218,74 @@ class _GirisSayfasiState extends State<GirisSayfasi>
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
-                  child: Container(
-                    width: 300.0,
-                    height: 190.0,
-                    child: Form(
-                      key: formKey,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: 20, bottom: 20, left: 25, right: 25),
-                            child: TextFormField(
-                              focusNode: myFocusNodeEmailGiris,
-                              controller: girisEmailKontrolu,
-                              keyboardType: TextInputType.emailAddress,
-                              style:
-                                  TextStyle(fontSize: 16.0, color: Colors.black),
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                icon: Icon(
-                                  FontAwesomeIcons.envelope,
+                child: Container(
+                  width: 300.0,
+                  height: 190.0,
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: 20, bottom: 20, left: 25, right: 25),
+                          child: TextFormField(
+                            focusNode: myFocusNodeEmailGiris,
+                            controller: girisEmailKontrolu,
+                            keyboardType: TextInputType.emailAddress,
+                            style:
+                            TextStyle(fontSize: 16.0, color: Colors.black),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              icon: Icon(
+                                FontAwesomeIcons.envelope,
+                                color: Colors.black,
+                                size: 22.0,
+                              ),
+                              hintText: "Email Adresi",
+                              hintStyle: TextStyle(fontSize: 17.0),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 250.0,
+                          height: 1.0,
+                          color: Colors.grey[400],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
+                          child: TextFormField(
+                            focusNode: myFocusNodeSifreGiris,
+                            controller: girisSifreKontrolu,
+                            obscureText: _obscureTextLogin,
+                            style:
+                            TextStyle(fontSize: 16.0, color: Colors.black),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              icon: Icon(
+                                FontAwesomeIcons.lock,
+                                size: 22.0,
+                                color: Colors.black,
+                              ),
+                              hintText: "Şifre",
+                              hintStyle: TextStyle(fontSize: 17.0),
+                              suffixIcon: GestureDetector(
+                                onTap: _toggleLogin,
+                                child: Icon(
+                                  _obscureTextLogin
+                                      ? FontAwesomeIcons.eye
+                                      : FontAwesomeIcons.eyeSlash,
+                                  size: 15.0,
                                   color: Colors.black,
-                                  size: 22.0,
                                 ),
-                                hintText: "Email Adresi",
-                                hintStyle: TextStyle(fontSize: 17.0),
                               ),
                             ),
                           ),
-                          Container(
-                            width: 250.0,
-                            height: 1.0,
-                            color: Colors.grey[400],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
-                            child: TextFormField(
-                              focusNode: myFocusNodeSifreGiris,
-                              controller: girisSifreKontrolu,
-                              obscureText: _obscureTextLogin,
-                              style:
-                                  TextStyle(fontSize: 16.0, color: Colors.black),
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                icon: Icon(
-                                  FontAwesomeIcons.lock,
-                                  size: 22.0,
-                                  color: Colors.black,
-                                ),
-                                hintText: "Şifre",
-                                hintStyle: TextStyle(fontSize: 17.0),
-                                suffixIcon: GestureDetector(
-                                  onTap: _toggleLogin,
-                                  child: Icon(
-                                    _obscureTextLogin
-                                        ? FontAwesomeIcons.eye
-                                        : FontAwesomeIcons.eyeSlash,
-                                    size: 15.0,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
+                        )
+                      ],
                     ),
                   ),
+                ),
 
               ),
               Container(
@@ -323,14 +318,15 @@ class _GirisSayfasiState extends State<GirisSayfasi>
                       ),
                     ),
                     onPressed: () async {
-                      User u = User();
-                      var email = girisEmailKontrolu.text;
+                      OgretimElemani ogr = OgretimElemani();
+                      var email = girisEmailKontrolu.text; //+""+adres;
                       var sifre = girisSifreKontrolu.text;
-                     var rsp = await nsn.loginUser(email,sifre);
+                      var rsp = await nsn.loginOgretimElm(email, sifre);
                       print(rsp);
                       if (rsp['email'] == email && rsp['sifre'] == sifre) {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePageOgrElm()));
                         Util.mail= email;
+
                       } else {
                         Alert(
                           context: context,
@@ -343,7 +339,7 @@ class _GirisSayfasiState extends State<GirisSayfasi>
                                 "TAMAM",
                                 style: TextStyle(color: Colors.white, fontSize: 20),
                               ),
-                              onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (contex)=>GirisSayfasi())),
+                              onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (contex)=>GirisSayfasiOgretimUyesi())),
                               width: 120,
                             ),
                           ],
@@ -360,7 +356,7 @@ class _GirisSayfasiState extends State<GirisSayfasi>
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => SifremiUnuttumSayfasi()));
+                          builder: (context) => OgretimElemaniSifremiUnuttumSayfasi()));
                 },
                 child: Text(
                   "Şifremi Unuttum",
@@ -433,7 +429,7 @@ class _GirisSayfasiState extends State<GirisSayfasi>
                   ),
                   child: Container(
                     width: 300.0,
-                    height: 560.0,
+                    height: 660.0,
                     child: Column(
                       children: [
                         Padding(
@@ -445,7 +441,7 @@ class _GirisSayfasiState extends State<GirisSayfasi>
                             keyboardType: TextInputType.text,
                             textCapitalization: TextCapitalization.words,
                             style:
-                                TextStyle(fontSize: 16.0, color: Colors.black),
+                            TextStyle(fontSize: 16.0, color: Colors.black),
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               icon: Icon(
@@ -470,8 +466,9 @@ class _GirisSayfasiState extends State<GirisSayfasi>
                             controller: kaydolEmailKontrolu,
                             keyboardType: TextInputType.text,
                             style:
-                                TextStyle(fontSize: 16.0, color: Colors.black),
+                            TextStyle(fontSize: 16.0, color: Colors.black),
                             decoration: InputDecoration(
+
                               border: InputBorder.none,
                               icon: Icon(
                                 FontAwesomeIcons.envelope,
@@ -479,8 +476,7 @@ class _GirisSayfasiState extends State<GirisSayfasi>
                               ),
                               hintText: "E-posta Adresi",
                               hintStyle:TextStyle(fontSize: 16.0),
-
-
+                              suffix: Text(adres, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
                             ),
                           ),
                         ),
@@ -498,7 +494,7 @@ class _GirisSayfasiState extends State<GirisSayfasi>
                             obscureText: _obscureTextSignup,
                             keyboardType: TextInputType.text,
                             style:
-                                TextStyle(fontSize: 16.0, color: Colors.black),
+                            TextStyle(fontSize: 16.0, color: Colors.black),
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               icon: Icon(
@@ -532,7 +528,7 @@ class _GirisSayfasiState extends State<GirisSayfasi>
                             controller: kaydolFakulteKontrolu,
                             keyboardType: TextInputType.text,
                             style:
-                                TextStyle(fontSize: 16.0, color: Colors.black),
+                            TextStyle(fontSize: 16.0, color: Colors.black),
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               icon: Icon(
@@ -555,11 +551,32 @@ class _GirisSayfasiState extends State<GirisSayfasi>
                             controller: kaydolBolumKontrolu,
                             keyboardType: TextInputType.text,
                             style:
-                                TextStyle(fontSize: 16.0, color: Colors.black),
+                            TextStyle(fontSize: 16.0, color: Colors.black),
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               icon: Icon(Icons.school),
                               hintText: "Bolum",
+                              hintStyle: TextStyle(fontSize: 16.0),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 250.0,
+                          height: 1.0,
+                          color: Colors.grey[400],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
+                          child: TextField(
+                            controller: kaydolAnaBilimKontrolu,
+                            keyboardType: TextInputType.text,
+                            style:
+                            TextStyle(fontSize: 16.0, color: Colors.black),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              icon: Icon(Icons.brightness_medium),
+                              hintText: "Ana Bilim Dalı",
                               hintStyle: TextStyle(fontSize: 16.0),
                             ),
                           ),
@@ -604,7 +621,7 @@ class _GirisSayfasiState extends State<GirisSayfasi>
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 540.0),
+                  margin: EdgeInsets.only(top: 630.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(5.0)),
                     boxShadow: <BoxShadow>[
@@ -636,53 +653,21 @@ class _GirisSayfasiState extends State<GirisSayfasi>
                         ),
                       ),
                       onPressed: () async {
-                        if(_dropDownValue == _lokasyon[1]){
-                       User u =  User();
-                        User object = User(
-                            id: null,
-                            adSoyad: kaydolIsimKontrolu.text.trim(),
-                            email: kaydolEmailKontrolu.text.trim(),
-                            fakulte: kaydolFakulteKontrolu.text.trim(),
-                            bolum: kaydolBolumKontrolu.text.trim(),
-                            sifre: kaydolSifreKontrolu.text.trim());
-                        var body = json.encode(object.toJson());
-                        object = await nsn.addUser(body);
-                          Alert(
-                            context: context,
-                            type: AlertType.success,
-                            title: "SİSTEM MESAJI",
-                            desc: "Kaydınız Başarı ile Oluşturulmuştur",
-                            buttons: [
-                              DialogButton(
-                                child: Text(
-                                  "TAMAM",
-                                  style: TextStyle(color: Colors.white, fontSize: 20),
-                                ),
-                                onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (contex)=>GirisSayfasi())),
-                                width: 120,
-                              ),
-                            ],
-                          ).show();
-                        }else{
-                          Alert(
-                            context: context,
-                            type: AlertType.success,
-                            title: "SİSTEM MESAJI",
-                            desc: "Kaydınız Başarı ile Oluşturulmuştur",
-                            buttons: [
-                              DialogButton(
-                                child: Text(
-                                  "TAMAM",
-                                  style: TextStyle(color: Colors.white, fontSize: 20),
-                                ),
-                                onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (contex)=>GirisSayfasi())),
-                                width: 120,
-                              ),
-                            ],
-                          ).show();
-                        }
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>OgrDogrulamaSayfasi()));
+                        OgretimElemani o = new OgretimElemani(
+                          id: null,
+                          email: kaydolEmailKontrolu.text.trim(),
+                          adSoyad: kaydolIsimKontrolu.text.trim(),
+                          sifre: kaydolSifreKontrolu.text.trim(),
+                          fakulte: kaydolFakulteKontrolu.text.trim(),
+                          bolum: kaydolBolumKontrolu.text.trim(),
+                          anabilimdali: kaydolAnaBilimKontrolu.text.trim(),
+                          unvan: _dropDownValue);
+                        Util.ogrMail = o.email;
+                        var body = json.encode(o.toJson());
+                        o = await nsn.addOgretimUyesi(body);
                       }
-                      ),
+                  ),
                 ),
               ],
             )
@@ -691,7 +676,6 @@ class _GirisSayfasiState extends State<GirisSayfasi>
       ),
     );
   }
-
   void _onSingInButtonPress() {
     _pageController.animateToPage(0,
         duration: Duration(milliseconds: 500), curve: Curves.decelerate);
@@ -732,10 +716,10 @@ class MyTabIndicatorPainter extends CustomPainter {
 
   MyTabIndicatorPainter(
       {this.dxHedef = 125.0,
-      this.dxGiris = 25.0,
-      this.radius = 21.0,
-      this.dy = 25.0,
-      this.safyaKontrolu})
+        this.dxGiris = 25.0,
+        this.radius = 21.0,
+        this.dy = 25.0,
+        this.safyaKontrolu})
       : super(repaint: safyaKontrolu) {
     painter = Paint()
       ..color = Color(0xFFFFFFFF)
@@ -746,7 +730,7 @@ class MyTabIndicatorPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final pos = safyaKontrolu.position;
     double fullExtent =
-        (pos.maxScrollExtent - pos.minScrollExtent + pos.viewportDimension);
+    (pos.maxScrollExtent - pos.minScrollExtent + pos.viewportDimension);
 
     double pageOffset = pos.extentBefore / fullExtent;
 

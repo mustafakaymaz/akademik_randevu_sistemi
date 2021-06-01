@@ -48,7 +48,7 @@ class _AciklamaDetayState extends State<AciklamaDetay> {
             onPressed: (){
              var metin = metinKontrolu.text;
                Util.aciklama = metin;
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>RandevuDetay()));
+              Navigator.pushReplacementNamed(context, "/detaySayfa");
               },
           ),
         ],

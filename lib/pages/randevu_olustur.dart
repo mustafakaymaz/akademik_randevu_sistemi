@@ -42,7 +42,7 @@ class _RandevuOlusturState extends State<RandevuOlustur> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(Util.adsoyad),
-                          Text(Util.mail,style:TextStyle(color: Colors.blue,),),
+                          Text(Util.mail,style:TextStyle(color: Colors.blue,fontSize: 16),),
                         ],
                       )),
                 ],
@@ -160,7 +160,8 @@ class _RandevuOlusturState extends State<RandevuOlustur> {
                                                       adSoyad: Util.ogru,
                                                       email: Util.mail,
                                                       tarih: Util.tarih,
-                                                      saat: Util.saat,);
+                                                      saat: Util.saat,
+                                                      ogremail: Util.ogrMail);
                                                   var body = json.encode(object.toJson());
                                                     object = await nsn.addRandevu(body);
                                                   //print(Util.mail);

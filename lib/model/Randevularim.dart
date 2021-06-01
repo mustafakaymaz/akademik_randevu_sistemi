@@ -6,15 +6,17 @@ class Randevular {
   String email;
   String tarih;
   String saat;
+  String ogremail;
 
-  Randevular({this.id,this.adSoyad, this.email, this.tarih, this.saat});
+  Randevular({this.id,this.adSoyad, this.email, this.tarih, this.saat,this.ogremail});
 
   Randevular.fromJson(Map<String, dynamic> map)
       : id = map['id'] ,
         adSoyad = map['adSoyad'] ,
         email = map['email'] ,
         tarih = map['tarih'] ,
-        saat = map['saat'];
+        saat = map['saat'],
+        ogremail = map['ogremail'];
 
 
   Map<String , dynamic> toJson(){
@@ -24,6 +26,7 @@ class Randevular {
     data[ 'email' ] = email;
     data[ 'tarih' ] = tarih;
     data[ 'saat' ] = saat;
+    data[ 'ogremail' ] = ogremail;
     return data;
   }
 }

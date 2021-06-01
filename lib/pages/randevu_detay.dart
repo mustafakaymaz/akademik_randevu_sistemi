@@ -23,7 +23,39 @@ class _RandevuDetayState extends State<RandevuDetay> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Randevu Detay"),
+        elevation: 0,
+        titleSpacing: 0.0,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Stack(
+              alignment: Alignment.center,
+              children: <Widget>[
+                IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    color: Colors.black,
+                    onPressed: (){
+                      Navigator.pushNamed(context, "/home");
+                    }
+                ),
+              ],
+            ),
+            Expanded(
+              child: Center(child: Text('Randevu Detay')),
+            )
+          ],
+        ),
+        automaticallyImplyLeading: false,
+        //centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.share, color: Colors.blue,),
+            onPressed: (){
+              Navigator.pushReplacementNamed(context, "/detaySayfa");
+            },
+          ),
+        ],
         backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(

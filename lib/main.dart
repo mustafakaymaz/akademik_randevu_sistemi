@@ -4,8 +4,10 @@ import 'package:hizli_randevu_sistemi/detay/aciklama.dart';
 import 'package:hizli_randevu_sistemi/detay/detay_ogretim_elemani.dart';
 import 'package:hizli_randevu_sistemi/model/Akadamisyenler.dart';
 import 'package:hizli_randevu_sistemi/pages/home_page.dart';
+import 'package:hizli_randevu_sistemi/pages/kullanici_girisi_secimi.dart';
 import 'package:hizli_randevu_sistemi/pages/login_page.dart';
 import 'package:hizli_randevu_sistemi/pages/login_page.dart';
+import 'package:hizli_randevu_sistemi/pages/login_page_ogretim_uyesi.dart';
 import 'package:hizli_randevu_sistemi/pages/randevu_detay.dart';
 import 'package:hizli_randevu_sistemi/pages/randevu_olustur.dart';
 import 'package:hizli_randevu_sistemi/pages/sifre_yenileme_sayfasi.dart';
@@ -33,22 +35,25 @@ class MyApp extends StatelessWidget {
      // home: GirisSayfasi(),
       initialRoute: "/",
       routes: {
-        '/' : (context)=> GirisSayfasi(),
+        '/': (context) => KullaniciGirisSecimi(),
+        '/girisSayfasiOgretimUyesi': (contex)=>GirisSayfasiOgretimUyesi(),
+        '/girisSayfasi' : (context)=> GirisSayfasi(),
+        '/home': (context)=>HomePage(),
         '/anaSayfa': (context)=>RandevuOlustur(),
         '/detaySayfa': (context)=>RandevuDetay(),
         '/detayOelmDetay':(context)=>Akademisyen(),
         '/aciklamaDetay': (context)=>AciklamaDetay(),
-        '/anaSayfa/detayOelmDetay': (context)=> RandevuDetay(),
+        '/anaSayfa/detayOelmDetay/anasayfa': (context)=> RandevuDetay(),
         '/anaSayfa/aciklamaDetay': (context)=> RandevuDetay(),
         '/detaySayfa/anaSayfa':(context)=>RandevuOlustur(),
       },
-      onGenerateRoute: (RouteSettings settings){
+     /* onGenerateRoute: (RouteSettings settings){
         List<String> eleman = settings.name.split("/");
         if(eleman[1]=='detay'){
           return MaterialPageRoute(builder: (context)=>RandevuDetay());
         }
         return null;
-       },
+       },*/
     );
   }
 }
